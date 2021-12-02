@@ -1,25 +1,14 @@
-import {
-  pipe,
-  zip,
-  tail,
-  map,
-  apply,
-  lt,
-  filter,
-  length,
-  split,
-  identity,
-} from "https://deno.land/x/ramda@v0.27.2/mod.ts";
+import { filter, length, map, pipe, split, tail, zip } from "prelude";
 
 const data = await Deno.readTextFile("1.input");
 
 const result = pipe(
   split("\n"),
-  map(parseInt),
-  (x) => zip(identity(x), tail(x)),
-  map(apply(lt)),
+  map((x) => parseInt(x, 10)),
+  (x) => zip(x, tail(x)),
+  map(([a, b]) => a < b),
   filter(Boolean),
-  length
+  length,
 )(data);
 
-console.log(result)
+console.log(result);
